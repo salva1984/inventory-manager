@@ -1,6 +1,12 @@
+
+from __future__ import annotations
+
+import argparse
+
+
 from product import build_product, format_product
 from storage import load_products, save_products
-from inventory_service import list_products
+from inventory_service import list_products, add_product
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Inventory Manager")
@@ -32,8 +38,22 @@ def run(argv: list[str] | None = None) -> int:
     products = load_products(args.storage)
 
     try:
-        
-        if args.command == "list":
+        if args.command == "add":
+            products = add_product(
+                products,
+                build_product(
+                    args.id,
+                    args.name,
+                    args.description,
+                    args.quantity,
+                    args.price,
+                    args.category,
+                ),
+            )
+            save_products(products, args.storage)
+            print(f"Added product '{args.id}'")
+
+        elif args.command == "list":
             current_products = list_products(products)
             if not current_products:
                 print("No products found")

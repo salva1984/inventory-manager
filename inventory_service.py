@@ -17,3 +17,7 @@ def add_product(products: list[dict[str, Any]], product: dict[str, Any]) -> list
     updated_products.append(normalized)
     return updated_products
 
+
+def get_total_value(products: list[dict[str, Any]]) -> float:
+    return sum(float(product["quantity"]) * float(product["price"]) for product in products)
+

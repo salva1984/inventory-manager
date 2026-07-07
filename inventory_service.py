@@ -28,3 +28,7 @@ def remove_product(products: list[dict[str, Any]], product_id: str) -> list[dict
         raise ValueError(f"Product '{product_id}' not found")
 
     return [product for product in products if product["id"] != product_id]
+
+def get_total_value(products: list[dict[str, Any]]) -> float:
+    return sum(float(product["quantity"]) * float(product["price"]) for product in products)
+

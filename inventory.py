@@ -10,6 +10,8 @@ from inventory_service import (
     list_products,
     add_product,
     remove_product,
+    get_total_value
+
 )
 
 def build_parser() -> argparse.ArgumentParser:
@@ -27,6 +29,7 @@ def build_parser() -> argparse.ArgumentParser:
     add_parser.add_argument("--category", required=True)
 
     subparsers.add_parser("list", help="List all products")
+    subparsers.add_parser("total", help="Show the total value of all products")
 
     update_parser = subparsers.add_parser("update", help="Update product quantity")
     update_parser.add_argument("--id", required=True)
@@ -70,6 +73,8 @@ def run(argv: list[str] | None = None) -> int:
             save_products(products, args.storage)
             print(f"Removed product '{args.id}'")
 
+        elif args.command == "total":
+            print(f"Total inventory value: {get_total_value(products):.2f}")
         
     except ValueError as error:
         print(error)

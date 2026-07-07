@@ -10,8 +10,8 @@ from inventory_service import (
     list_products,
     add_product,
     remove_product,
-    get_total_value
-
+    get_total_value,
+    update_product_quantity
 )
 
 def build_parser() -> argparse.ArgumentParser:
@@ -68,6 +68,10 @@ def run(argv: list[str] | None = None) -> int:
                 for product in current_products:
                     print(format_product(product))
 
+        elif args.command == "update":
+            products = update_product_quantity(products, args.id, args.quantity)
+            save_products(products, args.storage)
+            print(f"Updated product '{args.id}' quantity to {args.quantity}")
         elif args.command == "remove":
             products = remove_product(products, args.id)
             save_products(products, args.storage)

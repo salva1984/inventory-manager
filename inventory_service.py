@@ -29,6 +29,28 @@ def remove_product(products: list[dict[str, Any]], product_id: str) -> list[dict
 
     return [product for product in products if product["id"] != product_id]
 
+def find_product(products: list[dict[str, Any]], product_id: str) -> dict[str, Any] | None:
+    for product in products:
+        if product["id"] == product_id:
+            return deepcopy(product)
+    return None
+
+
+def update_product_quantity(products: list[dict[str, Any]], product_id: str, quantity: int) -> list[dict[str, Any]]:
+    if quantity < 0:
+        raise ValueError("Quantity cannot be negative")
+
+    if find_product(products, product_id) is None:
+        raise ValueError(f"Product '{product_id}' was not found")
+
+    updated_products = deepcopy(products)
+    for product in updated_products:
+        if product["id"] == product_id:
+            product["quantity"] = quantity
+            break
+    return updated_products
+
+
 def get_total_value(products: list[dict[str, Any]]) -> float:
     return sum(float(product["quantity"]) * float(product["price"]) for product in products)
 

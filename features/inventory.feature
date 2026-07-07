@@ -19,3 +19,17 @@ Scenario: Calculate the total value of the inventory
 			| P001 | Coffee  | 10       | 5.00  |
 		When the user updates product "P001" to quantity "25"
 		Then the inventory should show product "P001" with quantity "25"
+
+  Scenario: List all products in the inventory
+    Given the inventory contains products:
+      | ID   | Product | Quantity | Price |
+      | P001 | Coffee  | 10       | 5.00  |
+      | P002 | Sugar   | 4        | 2.50  |
+    When the user lists all products
+    Then the output should contain:
+      """
+      Products:
+      - Coffee
+      - Sugar
+      """
+

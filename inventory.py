@@ -6,7 +6,13 @@ import argparse
 
 from product import build_product, format_product
 from storage import load_products, save_products
-from inventory_service import add_product, get_total_value, list_products, update_product_quantity
+from inventory_service import (
+    list_products,
+    add_product,
+    remove_product,
+    get_total_value,
+    update_product_quantity
+)
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Inventory Manager")
@@ -66,6 +72,10 @@ def run(argv: list[str] | None = None) -> int:
             products = update_product_quantity(products, args.id, args.quantity)
             save_products(products, args.storage)
             print(f"Updated product '{args.id}' quantity to {args.quantity}")
+        elif args.command == "remove":
+            products = remove_product(products, args.id)
+            save_products(products, args.storage)
+            print(f"Removed product '{args.id}'")
 
         elif args.command == "total":
             print(f"Total inventory value: {get_total_value(products):.2f}")
